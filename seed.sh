@@ -25,7 +25,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: host-url
-  namespace: locust
+  namespace: $namespace
 data:
   ATTACKED_HOST: $hostName
 EOF1
@@ -42,7 +42,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: script-file
-  namespace: locust
+  namespace: $namespace
 data:
   locustfile.py: |
 $(cat $testFile | sed 's/^/    /')
