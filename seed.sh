@@ -2,15 +2,18 @@
 
 testFile=""
 hostName=""
+namespace=""
 
 # Display prompt if not arguments passed
-if [[ -z "$1" && -z "$2" ]]
+if [[ -z "$1" && -z "$2" && -z "$3" ]]
 then
+  read -p 'File to run: ' namespace
   read -p 'File to run: ' testFile
   read -p 'Host to attack: ' hostName
 else
-  testFile=$1
-  hostName=$2
+  namespace=$1
+  testFile=$2
+  hostName=$3
 fi
 
 # Confirmation
@@ -52,6 +55,6 @@ cat config-map.yaml | oc apply -f -
 rm ./config-map.yaml
 
 # Update the environment variable to trigger a change
-oc project locust
+oc project $namespace
 oc set env dc/locust-master --overwrite CONFIG_HASH=`date +%s%N`
 oc set env dc/locust-slave --overwrite CONFIG_HASH=`date +%s%N`
